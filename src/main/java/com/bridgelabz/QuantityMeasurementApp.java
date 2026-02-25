@@ -1,9 +1,10 @@
 /**
- * Quantity Measurement App - UC2: Feet and Inches measurement equality
+ * Quantity Measurement App - UC3: Generic Quantity Class for DRY Principle
  *
- * This class improves upon UC1 by adding Inches measurement with method similar to
- * Feet. It also adds static methods to remove dependency on main method by adding
- * static methods
+ * This class improves on UC2 by implementing DRY (Don't Repeat Yourself) by adding
+ * a separate Length class that manages Units and converts units for operations
+ * like comparison between two different measurements. It manages the constant
+ * required for conversion using Enumerator;
  */
 package com.bridgelabz;
 
@@ -11,79 +12,7 @@ import java.util.Scanner;
 
 //Main class
 public class QuantityMeasurementApp {
-    //Inner class to represent feet measurements
-    public static class Feet{
-        //field to hold value
-        private final double feet;
-        //parameterized constructor
-        Feet(double feet){
-            this.feet = feet;
-        }
-
-        /**
-         * Override of equals method to allow comarision of values
-         * between Feet classes
-         *
-         * here we check:
-         * 1. if both references are the same
-         * 2. is the passed reference null
-         * 3. are both the references of the same class
-         * 4. value comparison using Double.compare instead of ==
-         *
-         * @param obj Object passed to be compared with current instance
-         * @return boolean indicating whether values are same or not
-         */
-        @Override
-        public boolean equals(Object obj) {
-            if(this == obj){
-                return true;
-            }
-            if(obj == null || getClass() != obj.getClass()){
-                return false;
-            }
-
-            Feet comClass = (Feet) obj;
-            return Double.compare(this.feet,comClass.feet) == 0;
-        }
-    }
-
-    //Inner class to represent inches measurements
-    public static class Inches{
-        //field to hold value
-        private final double inches;
-        //parameterized constructor
-        Inches(double inches){
-            this.inches = inches;
-        }
-
-        /**
-         * Override of equals method to allow comarision of values
-         * between Inches classes
-         *
-         * here we check:
-         * 1. if both references are the same
-         * 2. is the passed reference null
-         * 3. are both the references of the same class
-         * 4. value comparison using Double.compare instead of ==
-         *
-         * @param obj Object passed to be compared with current instance
-         * @return boolean indicating whether values are same or not
-         */
-        @Override
-        public boolean equals(Object obj) {
-            if(this == obj){
-                return true;
-            }
-            if(obj == null || getClass() != obj.getClass()){
-                return false;
-            }
-
-            Inches comClass = (Inches) obj;
-            return Double.compare(this.inches,comClass.inches) == 0;
-        }
-    }
-
-    //static method to demonstrate Feet equality check
+    //static method to demonstrate Length Feet equality check
     public static void demonstrateFeetEquality(){
         Scanner scanner = new Scanner(System.in);
 
@@ -93,10 +22,10 @@ public class QuantityMeasurementApp {
         double input2 = scanner.nextDouble();
 
         //object instantiation
-        Feet feet1 = new Feet(input1);
-        Feet feet2 = new Feet(input2);
+        Length feet1 = new Length(input1, Length.LengthUnit.FEET);
+        Length feet2 = new Length(input2, Length.LengthUnit.FEET);
 
-        //Feet class equals invocation
+        //Length class equals invocation
         if(feet1.equals(feet2)){
             System.out.println("Both feet object are equal in value");
         }else{
@@ -104,7 +33,7 @@ public class QuantityMeasurementApp {
         }
     }
 
-    //static method to demonstrate Inches equality check
+    //static method to demonstrate Length Inches equality check
     public static void demonstrateInchesEquality(){
         Scanner scanner = new Scanner(System.in);
 
@@ -114,10 +43,10 @@ public class QuantityMeasurementApp {
         double input2 = scanner.nextDouble();
 
         //object instantiation
-        Inches inches1 = new Inches(input1);
-        Inches inches2 = new Inches(input2);
+        Length inches1 = new Length(input1, Length.LengthUnit.INCHES);
+        Length inches2 = new Length(input2, Length.LengthUnit.INCHES);
 
-        //Inches class equals invocation
+        //Length class equals invocation
         if(inches1.equals(inches2)){
             System.out.println("Both inches object are equal in value");
         }else{
@@ -125,9 +54,31 @@ public class QuantityMeasurementApp {
         }
     }
 
+    //static method to demonstrate Length equality between different measurements
+    public static void demonstrateFeetInchesEquality(){
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter first Feet measurement: ");
+        double input1 = scanner.nextDouble();
+        System.out.println("Enter second Inches measurement: ");
+        double input2 = scanner.nextDouble();
+
+        //object instantiation
+        Length inches1 = new Length(input1, Length.LengthUnit.FEET);
+        Length inches2 = new Length(input2, Length.LengthUnit.INCHES);
+
+        //Length class equals invocation
+        if(inches1.equals(inches2)){
+            System.out.println("Both are equal in value");
+        }else{
+            System.out.println("Both are unequal in value");
+        }
+    }
+
     //main method
     public static void main(String[] args){
         demonstrateFeetEquality();
         demonstrateInchesEquality();
+        demonstrateFeetInchesEquality();
     }
 }
