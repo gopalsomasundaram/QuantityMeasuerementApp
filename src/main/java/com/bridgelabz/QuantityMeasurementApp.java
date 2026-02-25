@@ -1,10 +1,8 @@
 /**
- * Quantity Measurement App - UC3: Generic Quantity Class for DRY Principle
+ * Quantity Measurement App - UC4: Extended Unit Support
  *
- * This class improves on UC2 by implementing DRY (Don't Repeat Yourself) by adding
- * a separate Length class that manages Units and converts units for operations
- * like comparison between two different measurements. It manages the constant
- * required for conversion using Enumerator;
+ * This class improves on UC3 by adding support for more types of
+ * measurements, namely: yards and centimeters
  */
 package com.bridgelabz;
 

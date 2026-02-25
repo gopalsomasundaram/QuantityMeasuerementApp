@@ -1,12 +1,11 @@
-package com.bridgelabz;
-
 /**
- * This class allows implementation of any type of lenght unit
+ * This class allows implementation of any type of length unit
  * it only requires the conversion factor to be mentioned in the
- * LengthUnit Enumerator. The class also manages Unit conersion to
+ * LengthUnit Enumerator. The class also manages Unit conversion to
  * a base unit before
- *
  */
+
+package com.bridgelabz;
 public class Length {
 
     public double value;
@@ -15,7 +14,9 @@ public class Length {
     //enum managing conversion factors
     public enum LengthUnit{
         FEET(12.0),
-        INCHES(1.0);
+        INCHES(1.0),
+        YARDS(36.0),
+        CENTIMETERS(0.393701);
 
         private final double conversionFactor;
 
@@ -59,13 +60,16 @@ public class Length {
     public static void main(String[] args){
         Length len1 = new Length(1, LengthUnit.FEET);
         Length len2 = new Length(12,LengthUnit.INCHES);
+        System.out.println(len1.equals(len2));
 
-        if(len1.equals(len2)){
-            System.out.println("Equal");
-        }
-        else{
-            System.out.println("Not Equal");
-        }
+        Length len3 = new Length(1,LengthUnit.YARDS);
+        Length len4 = new Length(36, LengthUnit.INCHES);
+        System.out.println(len3.equals(len4));
+
+        Length len5 = new Length(100.0, LengthUnit.CENTIMETERS);
+        Length len6 = new Length(39.3701, LengthUnit.INCHES);
+        System.out.println(len5.equals(len6));
+
     }
 
 }
