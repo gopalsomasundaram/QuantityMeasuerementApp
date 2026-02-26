@@ -37,6 +37,20 @@ public class Length {
             throw new IllegalArgumentException("Unit Type must be provided and cannot be null");
     }
 
+    //static conversion method
+    public static double convert(double value, LengthUnit sourceUnit, LengthUnit targetUnit){
+        if (targetUnit == null || sourceUnit == null|| Double.isNaN(value)) throw new IllegalArgumentException("Target unit cannot be null");
+        double valueInInches = value * sourceUnit.getConversionFactor();
+        double convertedValue = valueInInches/ targetUnit.getConversionFactor();
+        return convertedValue;
+    }
+
+    //instance method to convert to target length unit
+    public Length convertTo(LengthUnit targetUnit) {
+        double convertedValue = convert(this.value, this.unit, targetUnit);
+        return new Length(convertedValue, targetUnit);
+    }
+
     //Converts measurement to base unit
     private double convertToBaseUnit(){
         return this.value * this.unit.getConversionFactor();
