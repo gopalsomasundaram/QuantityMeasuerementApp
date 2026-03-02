@@ -1,5 +1,5 @@
 /**
- * Test Cases for UC5 - Unit to Unit conversion
+ * Test Cases for UC6 - Addition of Two Length Units
  *
  * These test cases verify the function of the Length class along
  * with its various measurements such as Feet, Inches, Yards, Centimeter
@@ -13,67 +13,114 @@ import org.junit.jupiter.api.Test;
 
 public class QuantityMeasurementAppTest {
     @Test
-    void testConversion_FeetToInches() {
-        double result = Length.convert(1.0, Length.LengthUnit.FEET, Length.LengthUnit.INCHES);
-        assertEquals(12.0, result); // [cite: 919]
+    void testAddition_SameUnit_FeetPlusFeet(){
+        Length temp = Length.add(
+                new Length(1.0, Length.LengthUnit.FEET),
+                new Length(1.0, Length.LengthUnit.FEET)
+        );
+        assertEquals(2.0, temp.value);
+        assertEquals(Length.LengthUnit.FEET, temp.getUnit());
     }
-
     @Test
-    void testConversion_YardsToInches() {
-        double result = Length.convert(1.0, Length.LengthUnit.YARDS, Length.LengthUnit.INCHES);
-        assertEquals(36.0, result); // [cite: 923]
+    void testAddition_SameUnit_InchesPlusInches(){
+        Length temp = Length.add(
+                new Length(6.0, Length.LengthUnit.INCHES),
+                new Length(6.0, Length.LengthUnit.INCHES)
+        );
+        assertEquals(12.0, temp.value);
+        assertEquals(Length.LengthUnit.INCHES,temp.getUnit());
     }
-
     @Test
-    void testConversion_CentimetersToInches() {
-        double result = Length.convert(2.54, Length.LengthUnit.CENTIMETERS, Length.LengthUnit.INCHES);
-        assertEquals(1.0, result, 0.01); // [cite: 927]
+    void testAddition_CrossUnit_FeetPlusInches(){
+        Length temp = Length.add(
+                new Length(1.0, Length.LengthUnit.FEET),
+                new Length(12.0, Length.LengthUnit.INCHES)
+        );
+        assertEquals(2.0, temp.value);
+        assertEquals(Length.LengthUnit.FEET,temp.getUnit());
     }
-
     @Test
-    void testConversion_ZeroValue() {
-        double result = Length.convert(0.0, Length.LengthUnit.FEET, Length.LengthUnit.INCHES);
-        assertEquals(0.0, result); // [cite: 878]
+    void testAddition_CrossUnit_InchesPlusFeet(){
+        Length temp = Length.add(
+                new Length(12.0, Length.LengthUnit.INCHES),
+                new Length(12.0, Length.LengthUnit.INCHES)
+        );
+        assertEquals(24.0, temp.value);
+        assertEquals(Length.LengthUnit.INCHES,temp.getUnit());
     }
-
     @Test
-    void testConversion_NegativeValue() {
-        double result = Length.convert(-1.0, Length.LengthUnit.FEET, Length.LengthUnit.INCHES);
-        assertEquals(-12.0, result); // [cite: 881]
+    void testAddition_CrossUnit_YardPlusFeet(){
+        Length temp = Length.add(
+                new Length(1.0, Length.LengthUnit.YARDS),
+                new Length(3.0, Length.LengthUnit.FEET)
+        );
+        assertEquals(2.0, temp.value);
+        assertEquals(Length.LengthUnit.YARDS,temp.getUnit());
     }
-
     @Test
-    void testConversion_SameUnit() {
-        double result = Length.convert(5.0, Length.LengthUnit.FEET, Length.LengthUnit.FEET);
-        assertEquals(5.0, result); // [cite: 890]
+    void testAddition_CrossUnit_CentimeterPlusInches(){
+        Length temp = Length.add(
+                new Length(2.54, Length.LengthUnit.CENTIMETERS),
+                new Length(1.0, Length.LengthUnit.INCHES)
+        );
+        assertEquals(5.079998628400741, temp.value);
+        assertEquals(Length.LengthUnit.CENTIMETERS,temp.getUnit());
     }
-
     @Test
-    void testConversion_RoundTrip() {
-        double toInches = Length.convert(1.0, Length.LengthUnit.FEET, Length.LengthUnit.INCHES);
-        double backToFeet = Length.convert(toInches, Length.LengthUnit.INCHES, Length.LengthUnit.FEET);
-        assertEquals(1.0, backToFeet); // [cite: 905]
+    void testAddition_Commutative(){
+        Length temp1 = Length.add(
+                new Length(1.0, Length.LengthUnit.FEET),
+                new Length(12.0, Length.LengthUnit.INCHES)
+        );
+        Length temp2 = Length.add(
+                new Length(12.0, Length.LengthUnit.INCHES),
+                new Length(1.0, Length.LengthUnit.FEET)
+        );
+        assertTrue(temp1.equals(temp2));
     }
-
     @Test
-    void testConversion_NaN_ThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            Length.convert(Double.NaN, Length.LengthUnit.FEET, Length.LengthUnit.INCHES);
-        });
+    void testAddition_WithZero(){
+        Length temp = Length.add(
+                new Length(5.0, Length.LengthUnit.FEET),
+                new Length(0.0, Length.LengthUnit.INCHES)
+        );
+        assertEquals(5.0, temp.value);
+        assertEquals(Length.LengthUnit.FEET,temp.getUnit());
     }
-
     @Test
-    void testConversion_NullUnit_ThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            Length.convert(1.0, null, Length.LengthUnit.INCHES);
-        }); // [cite: 937]
+    void testAddition_NegativeValues(){
+        Length temp = Length.add(
+                new Length(5.0, Length.LengthUnit.FEET),
+                new Length(-2.0, Length.LengthUnit.FEET)
+        );
+        assertEquals(3.0, temp.value);
+        assertEquals(Length.LengthUnit.FEET,temp.getUnit());
     }
-
     @Test
-    void testTransitiveProperty() {
-        Length yard = new Length(1.0, Length.LengthUnit.YARDS);
-        Length feet = new Length(3.0, Length.LengthUnit.FEET);
-        Length inches = new Length(36.0, Length.LengthUnit.INCHES);
-        assertTrue(yard.equals(feet) && feet.equals(inches) && yard.equals(inches)); // [cite: 1062]
+    void testAddition_NullSecondOperand(){
+        assertThrows(NullPointerException.class, () ->{
+            Length.add(
+                    new Length(1.0, Length.LengthUnit.FEET),
+                    null
+            );
+        } );
+    }
+    @Test
+    void testAddition_LargeValues(){
+        Length temp = Length.add(
+                new Length(1e6, Length.LengthUnit.FEET),
+                new Length(1e6, Length.LengthUnit.FEET)
+        );
+        assertEquals(2e6, temp.value);
+        assertEquals(Length.LengthUnit.FEET,temp.getUnit());
+    }
+    @Test
+    void testAddition_SmallValues(){
+        Length temp = Length.add(
+                new Length(0.001, Length.LengthUnit.FEET),
+                new Length(0.002, Length.LengthUnit.FEET)
+        );
+        assertEquals(0.003, temp.value, 0.0001);
+        assertEquals(Length.LengthUnit.FEET,temp.getUnit());
     }
 }

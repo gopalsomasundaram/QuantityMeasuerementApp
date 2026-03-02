@@ -45,10 +45,25 @@ public class Length {
         return convertedValue;
     }
 
+    //return unit
+    public LengthUnit getUnit(){
+        return this.unit;
+    }
+
     //instance method to convert to target length unit
     public Length convertTo(LengthUnit targetUnit) {
         double convertedValue = convert(this.value, this.unit, targetUnit);
         return new Length(convertedValue, targetUnit);
+    }
+
+    //allows addition of two different lengths and converts them to Length Unit type passed
+    public static Length add(Length length1, Length length2){
+        double base1 = length1.unit.getConversionFactor() * length1.value;
+        double base2 = length2.unit.getConversionFactor() * length2.value;
+
+        double result = (base1+base2)/length1.unit.getConversionFactor();
+
+        return new Length(result, length1.unit);
     }
 
     //Converts measurement to base unit
