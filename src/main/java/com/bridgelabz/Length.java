@@ -56,14 +56,22 @@ public class Length {
         return new Length(convertedValue, targetUnit);
     }
 
+    //instance method to add two values of same unit;
+    public Length add(Length length1 ){
+        double base1 = this.value * this.unit.getConversionFactor();
+        double base2 = length1.value * length1.unit.getConversionFactor();
+        double result = ((base1 + base2)/this.unit.getConversionFactor());
+        return new Length(result,this.unit);
+    }
+
     //allows addition of two different lengths and converts them to Length Unit type passed
-    public static Length add(Length length1, Length length2){
+    public static Length add(Length length1, Length length2, LengthUnit targetUnit){
         double base1 = length1.unit.getConversionFactor() * length1.value;
         double base2 = length2.unit.getConversionFactor() * length2.value;
 
-        double result = (base1+base2)/length1.unit.getConversionFactor();
+        double result = (base1+base2)/targetUnit.getConversionFactor();
 
-        return new Length(result, length1.unit);
+        return new Length(result, targetUnit);
     }
 
     //Converts measurement to base unit
