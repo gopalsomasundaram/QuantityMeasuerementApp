@@ -1,31 +1,29 @@
 package com.bridgelabz;
 
-/**
- * UC8: Quantity Measurement App
- * Demonstrates the use of the standalone LengthUnit class[cite: 297, 298].
- */
 public class QuantityMeasurementApp {
 
-    public static boolean demonstrateLengthEquality(Length length1, Length length2) {
-        return length1.equals(length2);
+    // Weight Functionality [cite: 1440]
+    public static boolean demonstrateWeightEquality(Weight w1, Weight w2) {
+        return w1.equals(w2);
     }
 
-    public static Length demonstrateLengthConversion(double value, LengthUnit from, LengthUnit to) {
-        double result = Length.convert(value, from, to);
-        return new Length(result, to);
+    public static Weight demonstrateWeightConversion(double value, WeightUnit from, WeightUnit to) {
+        return new Weight(value, from).convertTo(to);
     }
 
-    public static void demonstrateLengthAddition() {
-        // Example: Adding 1.0 Feet and 12.0 Inches to get 2.0 Feet
-        Length result = Length.add(
-                new Length(1.0, LengthUnit.FEET),
-                new Length(12.0, LengthUnit.INCHES),
-                LengthUnit.FEET
-        );
-        System.out.println("Adding 1.0 Feet and 12 Inches: " + result.value + " " + result.getUnit());
+    public static Weight demonstrateWeightAddition(Weight w1, Weight w2, WeightUnit target) {
+        return w1.add(w2, target);
+    }
+
+    // Length Functionality (Retained from UC8) [cite: 1576]
+    public static boolean demonstrateLengthEquality(Length l1, Length l2) {
+        return l1.equals(l2);
     }
 
     public static void main(String[] args) {
-        demonstrateLengthAddition();
+        // Example UC9 Output [cite: 1806]
+        Weight kg = new Weight(1.0, WeightUnit.KILOGRAM);
+        Weight gram = new Weight(1000.0, WeightUnit.GRAM);
+        System.out.println("1kg == 1000g: " + kg.equals(gram));
     }
 }
