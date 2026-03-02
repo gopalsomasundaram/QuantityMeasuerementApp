@@ -1,93 +1,31 @@
-/**
- * Quantity Measurement App - UC7: Addition with Target Unit Specification
- *
- * This class improves on UC7 overriding the add function to allow the user to
- * defind the target unit providing more flexibility for programming
- */
 package com.bridgelabz;
 
-import java.util.Scanner;
-
-//Main class
+/**
+ * UC8: Quantity Measurement App
+ * Demonstrates the use of the standalone LengthUnit class[cite: 297, 298].
+ */
 public class QuantityMeasurementApp {
-    //static method to demonstrate Length Feet equality check
-    public static boolean demonstrateFeetEquality(Length length1, Length length2){
+
+    public static boolean demonstrateLengthEquality(Length length1, Length length2) {
         return length1.equals(length2);
     }
 
-    //static method to demonstrate Length Inches equality check
-    public static Length demonstrateLengthConversion(double value, Length.LengthUnit from, Length.LengthUnit to) {
+    public static Length demonstrateLengthConversion(double value, LengthUnit from, LengthUnit to) {
         double result = Length.convert(value, from, to);
         return new Length(result, to);
     }
 
-    //static method to demonstrate Length equality between different measurements
-    public static Length demonstrateLengthConversion(Length length, Length.LengthUnit toUnit) {
-        return length.convertTo(toUnit);
+    public static void demonstrateLengthAddition() {
+        // Example: Adding 1.0 Feet and 12.0 Inches to get 2.0 Feet
+        Length result = Length.add(
+                new Length(1.0, LengthUnit.FEET),
+                new Length(12.0, LengthUnit.INCHES),
+                LengthUnit.FEET
+        );
+        System.out.println("Adding 1.0 Feet and 12 Inches: " + result.value + " " + result.getUnit());
     }
 
-    public static void demonstrateLengthAddition(){
-        System.out.println("Adding 1.0 Feet and 1.0 Feet: "
-                        +Length.add(
-                        new Length(1.0, Length.LengthUnit.FEET),
-                        new Length(2.0, Length.LengthUnit.FEET),
-                        Length.LengthUnit.FEET
-                ).value
-        );
-        System.out.println("Adding 1.0 Feet and 12 Inches: "
-                        +Length.add(
-                        new Length(1.0, Length.LengthUnit.FEET),
-                        new Length(12.0, Length.LengthUnit.INCHES),
-                        Length.LengthUnit.INCHES
-                ).value
-        );
-        System.out.println("Adding 12.0 Inches and 1.0 Feet: "
-                        +Length.add(
-                        new Length(12.0, Length.LengthUnit.INCHES),
-                        new Length(1.0, Length.LengthUnit.FEET),
-                        Length.LengthUnit.INCHES
-                ).value
-        );
-
-        System.out.println("Adding 1.0 Yards and 3.0 Feet: "
-                        +Length.add(
-                        new Length(1.0, Length.LengthUnit.YARDS),
-                        new Length(3.0, Length.LengthUnit.FEET),
-                        Length.LengthUnit.YARDS
-                ).value
-        );
-        System.out.println("Adding 36.0 Inches and 1.0 Yard: "
-                        +Length.add(
-                        new Length(36.0, Length.LengthUnit.INCHES),
-                        new Length(1.0, Length.LengthUnit.YARDS),
-                        Length.LengthUnit.YARDS
-                ).value
-        );
-        System.out.println("Adding 2.54 Centimeters and 1.0 Inches: "
-                        +Length.add(
-                        new Length(2.54, Length.LengthUnit.CENTIMETERS),
-                        new Length(1.0, Length.LengthUnit.INCHES),
-                        Length.LengthUnit.CENTIMETERS
-                ).value
-        );
-        System.out.println("Adding 5.0 Feet and 0.0 Inches: "
-                        +Length.add(
-                        new Length(5.0, Length.LengthUnit.FEET),
-                        new Length(0.0, Length.LengthUnit.INCHES),
-                        Length.LengthUnit.FEET
-                ).value
-        );
-        System.out.println("Adding 5.0 Feet and 2.0 Feet: "
-                        +Length.add(
-                        new Length(5.0, Length.LengthUnit.FEET),
-                        new Length(-2.0, Length.LengthUnit.FEET),
-                        Length.LengthUnit.FEET
-                ).value
-        );
-    }
-
-    //main method
-    public static void main(String[] args){
+    public static void main(String[] args) {
         demonstrateLengthAddition();
     }
 }
